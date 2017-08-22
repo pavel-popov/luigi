@@ -137,7 +137,9 @@ class SnakebiteHdfsClient(hdfs_abstract_client.HdfsFileSystem):
         :type skip_trash: boolean, default is False (use trash)
         :return: list of deleted items
         """
-        return list(self.get_bite().delete(self.list_path(path), recurse=recursive))
+        bite = self.get_bite()
+        bite.use_trash = not skip_trash
+        return list(bite.delete(self.list_path(path), recurse=recursive))
 
     def chmod(self, path, permissions, recursive=False):
         """
